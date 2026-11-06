@@ -1,0 +1,53 @@
+/* Visual simples, sem frameworks ou fontes externas. */
+* { box-sizing: border-box; }
+body { margin: 0; background: #f3f4f6; color: #263344; font-family: Arial, sans-serif; line-height: 1.6; }
+main { max-width: 960px; margin: 32px auto; padding: 0 20px; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { margin-bottom: 4px; font-size: 30px; }
+h2 { font-size: 21px; }
+h3 { margin-bottom: 8px; font-size: 17px; }
+.identificacao { margin-bottom: 8px; font-size: 12px; color: #536274; font-weight: bold; }
+.painel { margin: 20px 0; padding: 24px; border: 1px solid #d4dbe4; border-radius: 6px; background: white; }
+label { display: block; margin-bottom: 6px; font-weight: bold; }
+textarea, select, input[type="password"], input[type="text"] {
+  width: 100%; padding: 11px; border: 1px solid #9ba7b5; border-radius: 4px; background: white; color: inherit; font: inherit;
+}
+textarea { min-height: 250px; font: 15px/1.6 Consolas, monospace; resize: vertical; tab-size: 4; }
+select { margin-bottom: 8px; }
+pre { padding: 16px; background: #f4f6f8; border: 1px solid #dce1e8; border-radius: 4px; overflow: auto; font: 14px/1.6 Consolas, monospace; }
+pre code { font: inherit; }
+.ajuda, footer { color: #536274; font-size: 14px; }
+#contador { margin: 0 0 4px; }
+.privacidade { margin: 16px 0 0; }
+.botoes { display: flex; flex-wrap: wrap; gap: 10px; }
+button { padding: 10px 14px; border: 1px solid #245a9b; border-radius: 4px; background: #245a9b; color: white; cursor: pointer; font: inherit; }
+button:hover { background: #194779; }
+.secundario { background: white; border-color: #a5b0bd; color: #263344; }
+.secundario:hover { background: #edf1f6; }
+button:disabled { opacity: .65; cursor: wait; }
+:focus-visible { outline: 3px solid #306cba; outline-offset: 3px; }
+.erro { color: #a22323; }
+.sucesso { color: #23653c; }
+.aviso { color: #805000; }
+.destaque { font-weight: bold; font-size: 18px; }
+#andamento, #erro { margin: 14px 0 0; }
+.texto-resposta { white-space: pre-wrap; overflow-wrap: anywhere; }
+summary { cursor: pointer; font-weight: bold; }
+details[open] summary { margin-bottom: 14px; }
+a { color: #225a9b; }
+footer { text-align: center; margin-bottom: 24px; }
+dialog { width: min(540px, calc(100% - 32px)); max-height: 90vh; padding: 24px; border: 1px solid #c5ced8; border-radius: 6px; color: #263344; }
+dialog::backdrop { background: rgb(0 0 0 / 45%); }
+#titulo-chave { padding: 0 32px; text-align: center; }
+#modal-chave .botoes { justify-content: center; }
+.fechar-modal { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; padding: 0; border: 0; background: transparent; color: #536274; font-size: 28px; line-height: 1; }
+.fechar-modal:hover { background: #edf1f6; }
+.opcao { margin: 10px 0; font-weight: normal; }
+@media (max-width: 650px) {
+  main { margin-top: 20px; padding: 0 12px; }
+  header { align-items: flex-start; flex-direction: column; gap: 0; }
+  header button { margin-bottom: 10px; }
+  .painel { padding: 16px; }
+  .botoes button { width: 100%; }
+}

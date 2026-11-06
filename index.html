@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Assistente de estudo para explicar código Python, verificar sintaxe e sugerir correções.">
+  <title>Corretor Pyton</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="exemplos.js" defer></script>
+  <script src="sintaxe.js" defer></script>
+  <script src="groq.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Corretor Pyton</h1>
+        <p>Entenda seu código, encontre erros e aprenda com as correções.</p>
+      </div>
+      <button id="abrir-chave" class="secundario" type="button">Adicionar chave de API</button>
+    </header>
+    <p id="estado-chave" class="ajuda" role="status">Nenhuma chave configurada.</p>
+
+    <section class="painel" aria-labelledby="titulo-codigo">
+      <h2 id="titulo-codigo">Seu código Python</h2>
+      <label for="exemplo">Escolha um exemplo para testar ou escreva voce mesmo!</label>
+      <select id="exemplo"><option value="">Selecione um exemplo...</option></select>
+      <p id="descricao-exemplo" class="ajuda">Você também pode escrever ou colar seu próprio código abaixo.</p>
+      <label for="codigo">Código</label>
+      <textarea id="codigo" rows="12" spellcheck="false" autocapitalize="off" autocomplete="off"
+        aria-describedby="limite contador" placeholder="nome = &quot;Gabriel&quot;&#10;print(f&quot;Olá, {nome}!&quot;)"></textarea>
+      <p id="contador" class="ajuda">0 caracteres · 0 linhas</p>
+      <p id="limite" class="ajuda">Até 10.000 caracteres e 200 linhas. A verificação não executa o código.</p>
+      <div class="botoes">
+        <button id="analisar" type="button">Explicar e sugerir correções com IA</button>
+        <button id="verificar" class="secundario" type="button">Verificar sintaxe</button>
+        <button id="limpar" class="secundario" type="button">Limpar</button>
+      </div>
+      <p class="ajuda privacidade">A sintaxe é conferida neste navegador, sem chave. Ao usar a IA, seu código é enviado à Groq. É necessário acesso à internet.</p>
+      <p id="andamento" role="status" hidden></p>
+      <p id="erro" class="erro" role="alert" hidden></p>
+    </section>
+
+    <section id="resultado-sintaxe" class="painel" aria-labelledby="titulo-sintaxe" hidden>
+      <h2 id="titulo-sintaxe" tabindex="-1">Verificação de sintaxe e nomes</h2>
+      <p id="resumo-sintaxe" class="destaque"></p>
+      <p id="detalhe-sintaxe"></p>
+      <p id="dica-sintaxe"></p>
+      <pre id="trecho-erro" hidden></pre>
+      <ul id="avisos-nomes" class="aviso" hidden></ul>
+      <p class="ajuda">O Python aponta o primeiro erro encontrado. Corrija e verifique novamente. Sintaxe válida não garante que a lógica esteja correta.</p>
+    </section>
+
+    <section id="resultado-ia" class="painel" aria-labelledby="titulo-ia" hidden>
+      <h2 id="titulo-ia" tabindex="-1">Explicação da Groq</h2>
+      <h3>O que o código faz</h3>
+      <p id="explicacao" class="texto-resposta"></p>
+      <h3>Erros e sugestões</h3>
+      <p id="correcao" class="texto-resposta"></p>
+      <h3>Código sugerido</h3>
+      <pre><code id="codigo-corrigido"></code></pre>
+      <p id="validacao-correcao" class="ajuda"></p>
+      <button id="copiar" class="secundario" type="button">Copiar código sugerido</button>
+      <p id="estado-copia" class="ajuda" role="status"></p>
+      <h3>Para conferir se você entendeu</h3>
+      <p id="pergunta" class="texto-resposta"></p>
+      <p class="ajuda">A IA pode errar. Revise a explicação e teste a solução em um ambiente apropriado antes de utilizá-la.</p>
+    </section>
+
+    <details class="painel">
+      <summary>Como usar e o que este projeto verifica</summary>
+      <ol>
+        <li>Escolha um exemplo ou escreva um pequeno trecho de Python.</li>
+        <li>Use <strong>Verificar sintaxe</strong> para localizar erros de sintaxe e possíveis nomes não definidos no código principal, sem usar uma chave.</li>
+        <li>Para receber explicações e um código sugerido, adicione sua chave da Groq e clique em <strong>Explicar e sugerir correções com IA</strong>.</li>
+      </ol>
+      <p>O verificador usa Python no navegador, por meio do Pyodide. O primeiro carregamento pode demorar. Ele confere a sintaxe, mas não executa programas nem identifica todos os erros de lógica ou de execução.</p>
+      <p>Em Python, o ponto e vírgula normalmente é opcional. Já os dois-pontos são necessários em estruturas como <code>if</code>, <code>for</code> e <code>def</code>. A indentação também faz parte da linguagem.</p>
+      <p>A chave é salva no armazenamento local deste navegador, sem criptografia. Quem acessa este perfil do navegador pode recuperá-la. Use <strong>Remover chave</strong> ao terminar em um computador compartilhado. O código digitado não é salvo pelo aplicativo.</p>
+      <p><a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer">Criar chave no Groq Console</a> · <a href="https://console.groq.com/docs/rate-limits" target="_blank" rel="noopener noreferrer">Conferir limites gratuitos</a></p>
+    </details>
+    <footer>Projeto acadêmico - Gabriel Costa Silva (4317674)</footer>
+    <noscript><p>Ative o JavaScript para utilizar o assistente.</p></noscript>
+  </main>
+
+  <dialog id="modal-chave" aria-labelledby="titulo-chave">
+    <button id="fechar-chave" class="fechar-modal" type="button" aria-label="Fechar janela" title="Fechar">&times;</button>
+    <form id="form-chave">
+      <h2 id="titulo-chave">Chave de API da Groq</h2>
+      <p class="ajuda">Sua chave fica salva apenas neste navegador.</p>
+      <label for="chave">Cole sua chave</label>
+      <input id="chave" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="ajuda-chave erro-chave" placeholder="Sua chave de API">
+      <p id="ajuda-chave" class="ajuda"><a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer">Criar chave na Groq</a></p>
+      <label class="opcao"><input id="mostrar-chave" type="checkbox"> Mostrar chave</label>
+      <p id="erro-chave" class="erro" role="alert" hidden></p>
+      <div class="botoes">
+        <button id="salvar-chave" type="submit">Salvar chave</button>
+        <button id="testar-conexao" class="secundario" type="button">Testar conexão</button>
+        <button id="remover-chave" class="secundario" type="button">Remover chave</button>
+      </div>
+      <p id="resultado-conexao" role="status" hidden></p>
+    </form>
+  </dialog>
+</body>
+</html>

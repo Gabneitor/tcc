@@ -1,0 +1,14 @@
+# Não publique credenciais nem arquivos pessoais do trabalho.
+.env
+.env.*
+*.[pP][dD][fF]
+
+# Materiais locais que não devem ser enviados ao GitHub.
+/docs/
+/testes/
+/[rR][eE][aA][dD][mM][eE].[mM][dD]
+
+*.log
+__pycache__/
+.DS_Store
+Thumbs.db
